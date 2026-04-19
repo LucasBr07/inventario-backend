@@ -6,9 +6,7 @@ import com.example.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+@CrossOrigin(origins = "*") // 🔥 libera acesso do frontend
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -16,19 +14,15 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository repository;
 
+    // ✅ CADASTRAR USUÁRIO
     @PostMapping("/cadastrar")
     public Usuario cadastrar(@RequestBody Usuario user) {
         return repository.save(user);
     }
 
+    // ✅ LOGIN
     @PostMapping("/login")
     public Usuario login(@RequestBody Usuario user) {
         return repository.findByLoginAndSenha(user.getLogin(), user.getSenha());
-    }
-
-    // 🔥 ESSENCIAL PRA CORS
-    @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handleOptions() {
-        return ResponseEntity.ok().build();
     }
 }
